@@ -7,6 +7,7 @@ typedef struct node{
     struct node *next;
 }Node;
 
+
 typedef struct queue{
     Node *front;
     Node *rear;
