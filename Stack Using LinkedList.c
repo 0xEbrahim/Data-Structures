@@ -9,22 +9,29 @@ typedef struct node{
 
 typedef struct stack{
     Node *top;
+    int size ;
 } Stack;
 
 void init(Stack *ps){
     ps -> top = malloc(sizeof(Node));
     ps -> top = NULL;
+    ps -> size = 0;
 }
 
 void push(Stack *ps, int el){
     Node *new_element = malloc(sizeof (Node));
+    if(!new_element){
+        printf("Memory allocation error.\n");
+        return;
+    }
     new_element -> val = el;
     new_element -> next = ps -> top;
     ps -> top = new_element;
+    ps -> size++;
 }
 
 int isEmpty(Stack *ps){
-    return ps->top == NULL ? 1 : 0;
+    return ps -> size == 0 ? 1 : 0;
 }
 
 void pop(Stack*ps){
@@ -35,6 +42,7 @@ void pop(Stack*ps){
     Node *tmp = ps -> top;
     ps -> top = ps -> top -> next ;
     free(tmp);
+    ps -> size--;
 }
 
 void top(Stack *ps,  int *el){
@@ -59,23 +67,33 @@ void display(Stack *ps){
     printf("\n");
 }
 
+void clear(Stack *ps){
+    while(ps -> top){
+        Node *tmp = ps -> top;
+        ps -> top = ps -> top -> next;
+        free(tmp);
+    }
+    ps -> size = 0;
+    ps -> top = NULL;
+}
+
+int size(Stack *ps){
+    return ps -> size;
+}
 
 int main() {
-  Stack st;
-  init(&st);
+    Stack st;
+    init(&st);
     push(&st,1);
     push(&st,2);
     push(&st,3);
     push(&st,4);
+    int sz = size(&st);
+    printf("Size => %d \n",sz);
     display(&st);
-    pop(&st);
+    clear(&st);
     display(&st);
-    pop(&st);
-    pop(&st);
-    pop(&st);
-    display(&st);
-    pop(&st);
-    int tp ;
-    top(&st,&tp);
-   
+     sz = size(&st);
+    printf("Size => %d \n",sz);
+
 }
